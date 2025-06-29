@@ -14,6 +14,7 @@
     ./hardware-configuration.nix
     ../../roles/base.nix
     ../../roles/secureboot.nix
+    ../../roles/nvidia.nix
     ../../roles/tailscale.nix
   ];
 
