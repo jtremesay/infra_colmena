@@ -79,6 +79,9 @@
       KbdInteractiveAuthentication = false;
     };
   };
+  networking.firewall.allowedTCPPorts = [
+    22 # SSH
+  ];
 
   # Nix configuration
   nix.settings.experimental-features = [

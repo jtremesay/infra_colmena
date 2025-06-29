@@ -13,9 +13,10 @@
   imports = [
     ./hardware-configuration.nix
     ../../roles/base.nix
+    ../../roles/firewall.nix
+    ../../roles/tailscale.nix
     ../../roles/secureboot.nix
     ../../roles/nvidia.nix
-    ../../roles/tailscale.nix
   ];
 
   networking.hostName = "edemaruh";
@@ -52,8 +53,11 @@
       "qwen3:30b"
       "qwen3:32b"
     ];
-    host = "100.74.48.117";
+    host = "0.0.0.0";
   };
+
+  # Don't suspend when the lid is closed.
+  services.logind.lidSwitch = "ignore";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

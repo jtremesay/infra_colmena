@@ -8,9 +8,10 @@
   imports = [
     ./hardware-configuration.nix
     ../../roles/base.nix
+    ../../roles/firewall.nix
+    ../../roles/tailscale.nix
     ../../roles/desktop_plasma.nix
     ../../roles/ollama_client.nix
-    ../../roles/tailscale.nix
   ];
 
   networking.hostName = "music";
