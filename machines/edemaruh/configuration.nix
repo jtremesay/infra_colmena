@@ -51,6 +51,7 @@
       "qwen3:30b"
       "qwen3:32b"
     ];
+    host = "100.74.48.117";
   };
 
   # Open ports in the firewall.
