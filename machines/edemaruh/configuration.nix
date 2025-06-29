@@ -14,6 +14,7 @@
     ./hardware-configuration.nix
     ../../roles/base.nix
     ../../roles/secureboot.nix
+    ../../roles/tailscale.nix
   ];
 
   networking.hostName = "edemaruh";

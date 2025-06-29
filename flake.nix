@@ -59,11 +59,12 @@
 
       deployments = {
         edemaruh = {
-          targetHost = "192.168.1.50";
+          #targetHost = "192.168.1.50"; # wlan0
+          #targetHost = "192.168.1.168"; # eth0
         };
 
         music = {
-          targetHost = "192.168.1.145";
+          #targetHost = "192.168.1.145"; # wlan0
         };
       };
 

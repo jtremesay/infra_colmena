@@ -9,6 +9,7 @@
     ./hardware-configuration.nix
     ../../roles/base.nix
     ../../roles/desktop_plasma.nix
+    ../../roles/tailscale.nix
   ];
 
   networking.hostName = "music";
