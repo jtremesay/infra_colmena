@@ -5,12 +5,17 @@
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     {
       self,
-      nixpkgs,
       lanzaboote,
+      nixpkgs,
+      sops-nix,
     }:
     let
       system = "x86_64-linux";
@@ -21,25 +26,32 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
+          age
           colmena
-          nixfmt-rfc-style
           fish
+          nixfmt-rfc-style
+          sops
+          ssh-to-age
         ];
         shellHook = ''
           exec ${pkgs.fish}/bin/fish
         '';
       };
 
+      commonModules = [
+        lanzaboote.nixosModules.lanzaboote
+        sops-nix.nixosModules.sops
+      ];
+
       nixosConfigurations = {
         edemaruh = nixpkgs.lib.nixosSystem {
-          modules = [
-            lanzaboote.nixosModules.lanzaboote
+          modules = self.commonModules ++ [
             ./machines/edemaruh/configuration.nix
           ];
         };
 
         music = nixpkgs.lib.nixosSystem {
-          modules = [
+          modules = self.commonModules ++ [
             ./machines/music/configuration.nix
           ];
         };
