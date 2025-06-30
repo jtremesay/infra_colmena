@@ -83,6 +83,12 @@
     22 # SSH
   ];
 
+  # Locate
+  services.locate = {
+    enable = true;
+    interval = "hourly";
+  };
+
   # Nix configuration
   nix.settings.experimental-features = [
     "nix-command"
