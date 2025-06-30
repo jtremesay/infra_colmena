@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs_unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +16,7 @@
       self,
       lanzaboote,
       nixpkgs,
+      nixpkgs_unstable,
       sops-nix,
     }:
     let
@@ -70,7 +72,7 @@
         };
 
         hiraeth = {
-          targetHost = "hiraeth.jtremesay.org";
+          #targetHost = "hiraeth.jtremesay.org";
         };
 
         music = {
@@ -82,6 +84,11 @@
         {
           meta = {
             nixpkgs = import nixpkgs {
+              system = "x86_64-linux";
+              overlays = [ ];
+            };
+
+            nodeNixpkgs.edemaruh = import nixpkgs_unstable {
               system = "x86_64-linux";
               overlays = [ ];
             };
