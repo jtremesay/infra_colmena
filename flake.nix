@@ -50,6 +50,12 @@
           ];
         };
 
+        hiraeth = nixpkgs.lib.nixosSystem {
+          modules = self.commonModules ++ [
+            ./machines/hiraeth/configuration.nix
+          ];
+        };
+
         music = nixpkgs.lib.nixosSystem {
           modules = self.commonModules ++ [
             ./machines/music/configuration.nix
@@ -61,6 +67,10 @@
         edemaruh = {
           #targetHost = "192.168.1.50"; # wlan0
           #targetHost = "192.168.1.168"; # eth0
+        };
+
+        hiraeth = {
+          targetHost = "hiraeth.jtremesay.org";
         };
 
         music = {
