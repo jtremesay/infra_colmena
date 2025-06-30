@@ -12,11 +12,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../roles/base.nix
-    ../../roles/firewall.nix
-    ../../roles/tailscale.nix
-    ../../roles/secureboot.nix
-    ../../roles/nvidia.nix
+    ../../modules/base.nix
+    ../../modules/firewall.nix
+    ../../modules/tailscale.nix
+    ../../modules/secureboot.nix
+    ../../modules/nvidia.nix
   ];
 
   networking.hostName = "edemaruh";

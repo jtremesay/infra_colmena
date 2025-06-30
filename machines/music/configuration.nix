@@ -7,11 +7,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../roles/base.nix
-    ../../roles/firewall.nix
-    ../../roles/tailscale.nix
-    ../../roles/desktop_plasma.nix
-    ../../roles/ollama_client.nix
+    ../../modules/base.nix
+    ../../modules/firewall.nix
+    ../../modules/tailscale.nix
+    ../../modules/desktop_plasma.nix
+    ../../modules/ollama_client.nix
   ];
 
   networking.hostName = "music";

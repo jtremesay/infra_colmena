@@ -11,9 +11,9 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../roles/base.nix
-    ../../roles/firewall.nix
-    ../../roles/tailscale.nix
+    ../../modules/base.nix
+    ../../modules/firewall.nix
+    ../../modules/tailscale.nix
     ./modules/reverse_proxy.nix
   ];
 
