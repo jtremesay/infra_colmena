@@ -36,7 +36,7 @@
       "gemma3:12b"
       "gemma3:27b"
       "gemma3n:e2b"
-      "gemma3n:4b"
+      "gemma3n:e4b"
       "granite3.3:2b"
       "granite3.3:8b"
       "llama4:16x17b"
