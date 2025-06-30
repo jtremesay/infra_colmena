@@ -3,5 +3,5 @@
   environment.systemPackages = with pkgs; [
     ollama
   ];
-  environment.sessionVariables.OLLAMA_HOST = "100.74.48.117";
+  environment.sessionVariables.OLLAMA_HOST = "edemaruh.taileb23fb.ts.net";
 }
