@@ -8,13 +8,13 @@
   pkgs,
   ...
 }:
-
 {
   imports = [
     ./hardware-configuration.nix
     ../../roles/base.nix
     ../../roles/firewall.nix
     ../../roles/tailscale.nix
+    ./modules/reverse_proxy.nix
   ];
 
   networking.hostName = "hiraeth";
