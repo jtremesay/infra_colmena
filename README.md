@@ -1,4 +1,8 @@
-# 
+# Infra
+
+My [NixOS](https://nixos.org/) infra managed with [Colmena](https://github.com/zhaofengli/colmena)
+
+Notes: I have no fucking idea of what I'm doing. Use it at your own risk.
 
 ## Usage
 
@@ -39,3 +43,9 @@ $ sops updatekeys secrets/default.yaml
 ```shell
 $ sops edit secrets/default.yaml
 ```
+
+## Reference
+
+- [NixOS Options](https://nixos.org/manual/nixos/stable/options)
+- [NixOS Search](https://search.nixos.org/options)
+- [Colmena](https://colmena.cli.rs/unstable/)
