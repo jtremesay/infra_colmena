@@ -11,7 +11,6 @@
     ../../modules/firewall.nix
     ../../modules/tailscale.nix
     ../../modules/ollama_client.nix
-    ../../users
   ];
 
   networking.hostName = "music";

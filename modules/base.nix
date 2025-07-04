@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  imports = [
+    ../users
+  ];
+
   # Boot options
   boot.initrd.systemd.enable = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
