@@ -1,5 +1,9 @@
 {
   inputs = {
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs_unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     lanzaboote = {
@@ -14,6 +18,7 @@
   outputs =
     {
       self,
+      home-manager,
       lanzaboote,
       nixpkgs,
       nixpkgs_unstable,
@@ -41,6 +46,7 @@
       };
 
       commonModules = [
+        home-manager.nixosModules.home-manager
         lanzaboote.nixosModules.lanzaboote
         sops-nix.nixosModules.sops
       ];
