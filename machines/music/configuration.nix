@@ -10,7 +10,6 @@
     ../../modules/base.nix
     ../../modules/firewall.nix
     ../../modules/tailscale.nix
-    ../../modules/desktop_hyprland.nix
     ../../modules/ollama_client.nix
     ../../users
   ];

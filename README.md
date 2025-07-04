@@ -48,4 +48,5 @@ $ sops edit secrets/default.yaml
 
 - [NixOS Options](https://nixos.org/manual/nixos/stable/options)
 - [NixOS Search](https://search.nixos.org/options)
+- [Home Manager](https://nix-community.github.io/home-manager/options.xhtml)
 - [Colmena](https://colmena.cli.rs/unstable/)
