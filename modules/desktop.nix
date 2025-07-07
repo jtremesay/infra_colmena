@@ -9,14 +9,9 @@
   # Programs
   programs.firefox.enable = true;
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  #services.xserver.enable = false;
-
   # Enable Display Manager
   services.displayManager.sddm = {
     enable = true;
-    wayland.enable = true;
   };
 
   # Enable CUPS to print documents.
