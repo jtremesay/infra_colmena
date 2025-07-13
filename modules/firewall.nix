@@ -8,6 +8,8 @@
         "tailscale0"
       ];
     };
-    nftables.enable = true;
+    nftables = {
+      enable = true;
+    };
   };
 }

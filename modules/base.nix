@@ -79,4 +79,9 @@
     "nix-command"
     "flakes"
   ];
+
+  # Sops
+  sops = {
+    defaultSopsFile = ../secrets/default.yaml;
+  };
 }
