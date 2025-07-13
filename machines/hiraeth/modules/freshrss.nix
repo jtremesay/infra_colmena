@@ -82,4 +82,9 @@
       reverse_proxy freshrss:80
     '';
   };
+
+  services.borgmatic.settings.source_directories = [
+    "/var/lib/nixos-containers/freshrss/var/lib/freshrss"
+    "/var/lib/nixos-containers/freshrss/var/lib/postgresql"
+  ];
 }
