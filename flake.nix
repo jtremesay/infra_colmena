@@ -63,12 +63,6 @@
             ./machines/hiraeth/configuration.nix
           ];
         };
-
-        music = nixpkgs.lib.nixosSystem {
-          modules = self.commonModules ++ [
-            ./machines/music/configuration.nix
-          ];
-        };
       };
 
       deployments = {
@@ -79,10 +73,6 @@
 
         hiraeth = {
           #targetHost = "hiraeth.jtremesay.org";
-        };
-
-        music = {
-          #targetHost = "192.168.1.145"; # wlan0
         };
       };
 
