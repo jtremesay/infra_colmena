@@ -33,7 +33,7 @@
       };
   };
 
-  services.caddy.virtualHosts."vault.hiraeth.jtremesay.org" = {
+  services.caddy.virtualHosts."vault.jtremesay.org" = {
     extraConfig = ''
       reverse_proxy vaultwarden:8000
     '';
