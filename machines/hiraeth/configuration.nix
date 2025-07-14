@@ -17,6 +17,7 @@
     ../../modules/bormatic.nix
     ./modules/reverse_proxy.nix
     ./modules/freshrss.nix
+    ./modules/rssbridge.nix
   ];
 
   networking.hostName = "hiraeth";
