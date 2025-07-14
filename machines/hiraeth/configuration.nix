@@ -19,6 +19,7 @@
     ./modules/public_html.nix
     ./modules/freshrss.nix
     ./modules/rssbridge.nix
+    ./modules/mirrors
   ];
 
   networking.hostName = "hiraeth";
