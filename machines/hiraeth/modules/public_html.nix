@@ -8,7 +8,7 @@
   services.caddy.virtualHosts."hiraeth.jtremesay.org" = {
     extraConfig = ''
       handle_path /~* {
-        root * /srv/http
+        root * /srv/http/public_html
         file_server browse
       }
     '';
@@ -20,8 +20,8 @@
     ]
     ++ lib.flatten (
       lib.mapAttrsToList (name: user: [
-        "d /srv/http/${name} 0755 ${name} ${user.group}"
-        "L+ /home/${name}/public_html - ${name} ${user.group} - /srv/http/${name}"
+        "d /srv/http/public_html/${name} 0755 ${name} ${user.group}"
+        "L+ /home/${name}/public_html - ${name} ${user.group} - /srv/http/public_html/${name}"
       ]) (lib.filterAttrs (name: user: user.isNormalUser && user.createHome) config.users.users)
     );
 }
