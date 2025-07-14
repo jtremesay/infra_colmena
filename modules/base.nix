@@ -52,6 +52,7 @@
 
   # More programs
   environment.systemPackages = with pkgs; [
+    dig
     killall
     tree
   ];
