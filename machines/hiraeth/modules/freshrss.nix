@@ -44,7 +44,7 @@
 
         services.freshrss = {
           enable = true;
-          baseUrl = "https://rss.hiraeth.jtremesay.org";
+          baseUrl = "https://rss.jtremesay.org";
           defaultUser = "jtremesay";
           passwordFile = "/run/secrets/freshrss_jtremesay_password";
           database.type = "pgsql";
@@ -77,7 +77,7 @@
       };
   };
 
-  services.caddy.virtualHosts."rss.hiraeth.jtremesay.org" = {
+  services.caddy.virtualHosts."rss.jtremesay.org" = {
     extraConfig = ''
       reverse_proxy freshrss:80
     '';

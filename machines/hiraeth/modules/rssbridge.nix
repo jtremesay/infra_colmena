@@ -38,7 +38,7 @@
       };
   };
 
-  services.caddy.virtualHosts."rssbridge.hiraeth.jtremesay.org" = {
+  services.caddy.virtualHosts."rssbridge.jtremesay.org" = {
     extraConfig = ''
       reverse_proxy rssbridge:80
     '';
