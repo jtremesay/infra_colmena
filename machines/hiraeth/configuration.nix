@@ -18,8 +18,9 @@
     ./modules/reverse_proxy.nix
     ./modules/public_html.nix
     ./modules/freshrss.nix
-    ./modules/rssbridge.nix
     ./modules/mirrors
+    ./modules/rssbridge.nix
+    ./modules/vaultwarden.nix
   ];
 
   networking.hostName = "hiraeth";
