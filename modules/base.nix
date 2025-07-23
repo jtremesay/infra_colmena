@@ -55,6 +55,7 @@
     dig
     killall
     tree
+    unzip
   ];
 
   # Enable the OpenSSH daemon.
