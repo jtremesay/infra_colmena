@@ -18,6 +18,7 @@
     ./modules/reverse_proxy.nix
     ./modules/public_html.nix
     ./modules/freshrss.nix
+    ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
     ./modules/rssbridge.nix
