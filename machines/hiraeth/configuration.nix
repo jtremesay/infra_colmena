@@ -15,6 +15,7 @@
     ../../modules/firewall.nix
     ../../modules/tailscale.nix
     ../../modules/borgmatic.nix
+    ../../modules/docker.nix
     ./modules/reverse_proxy.nix
     ./modules/public_html.nix
     ./modules/freshrss.nix

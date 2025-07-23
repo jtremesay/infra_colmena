@@ -5,6 +5,7 @@
     description = " jtremesay";
     extraGroups = [
       "wheel"
+      "docker"
     ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
