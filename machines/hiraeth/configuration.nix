@@ -14,7 +14,7 @@
     ../../modules/base.nix
     ../../modules/firewall.nix
     ../../modules/tailscale.nix
-    ../../modules/bormatic.nix
+    ../../modules/borgmatic.nix
     ./modules/reverse_proxy.nix
     ./modules/public_html.nix
     ./modules/freshrss.nix
