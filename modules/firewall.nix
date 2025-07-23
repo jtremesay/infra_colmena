@@ -5,7 +5,6 @@
       enable = true;
       trustedInterfaces = [
         "lo"
-        "tailscale0"
       ];
     };
     nftables = {
