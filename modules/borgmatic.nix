@@ -15,7 +15,7 @@
       repositories = [
         {
           label = "sway";
-          path = "ssh://sway/./borg-repository";
+          path = "ssh://sway/./borg/${config.networking.hostName}";
         }
       ];
       exclude_patterns = [
