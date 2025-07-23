@@ -19,6 +19,7 @@
     ./modules/public_html.nix
     ./modules/freshrss.nix
     ./modules/mirrors
+    ./modules/nextcloud.nix
     ./modules/rssbridge.nix
     ./modules/vaultwarden.nix
   ];
