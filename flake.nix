@@ -36,6 +36,8 @@
           age
           colmena
           fish
+          nil
+          nixd
           nixfmt-rfc-style
           sops
           ssh-to-age
