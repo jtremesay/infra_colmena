@@ -5,7 +5,7 @@
   ...
 }:
 {
-  services.caddy.virtualHosts."hiraeth.jtremesay.org" = {
+  services.caddy.virtualHosts."jtremesay.org" = {
     extraConfig = ''
       handle_path /~* {
         root * /srv/http/public_html
@@ -14,14 +14,13 @@
     '';
   };
 
-  systemd.tmpfiles.rules =
-    [
-      "d /srv/http 0755 root root -"
-    ]
-    ++ lib.flatten (
-      lib.mapAttrsToList (name: user: [
-        "d /srv/http/public_html/${name} 0755 ${name} ${user.group}"
-        "L+ /home/${name}/public_html - ${name} ${user.group} - /srv/http/public_html/${name}"
-      ]) (lib.filterAttrs (name: user: user.isNormalUser && user.createHome) config.users.users)
-    );
+  systemd.tmpfiles.rules = [
+    "d /srv/http 0755 root root -"
+  ]
+  ++ lib.flatten (
+    lib.mapAttrsToList (name: user: [
+      "d /srv/http/public_html/${name} 0755 ${name} ${user.group}"
+      "L+ /home/${name}/public_html - ${name} ${user.group} - /srv/http/public_html/${name}"
+    ]) (lib.filterAttrs (name: user: user.isNormalUser && user.createHome) config.users.users)
+  );
 }
