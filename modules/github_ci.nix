@@ -6,7 +6,7 @@
       "docker"
     ];
     openssh.authorizedKeys.keys = [
-      "command=\"docker system dial-stdio\" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIF+80iTtdE6+AXmkj0FrhrBYGeL/Jixs9pZ0fyQLKYB github-ci@pan"
+      "command=\"docker system dial-stdio\" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEi5LmLfVfaURHUrMc/Tny83YfDGautoI0bVQDd3q5IO github-ci@hiraeth"
     ];
   };
 }
