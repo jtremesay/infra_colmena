@@ -77,10 +77,17 @@
   };
 
   # Nix configuration
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    optimise.automatic = true;
+    gc.automatic = true;
+
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
 
   # Sops
   sops = {
