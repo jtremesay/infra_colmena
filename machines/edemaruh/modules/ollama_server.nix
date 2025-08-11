@@ -1,5 +1,5 @@
 { ... }:
-{$
+{
   # Ollama CUDA
   services.ollama = {
     enable = true;
