@@ -78,24 +78,28 @@
         };
       };
 
-      colmena =
-        {
-          meta = {
-            nixpkgs = import nixpkgs {
-              system = "x86_64-linux";
-              overlays = [ ];
-            };
-
-            nodeNixpkgs.edemaruh = import nixpkgs_unstable {
-              system = "x86_64-linux";
-              overlays = [ ];
-            };
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+            overlays = [ ];
           };
-        }
-        // builtins.mapAttrs (name: value: {
-          deployment = self.deployments.${name} or { };
-          nixpkgs.system = value.config.nixpkgs.system;
-          imports = value._module.args.modules;
-        }) (self.nixosConfigurations);
+
+          nodeNixpkgs.edemaruh = import nixpkgs_unstable {
+            system = "x86_64-linux";
+            overlays = [ ];
+          };
+
+          nodeNixpkgs.hiraeth = import nixpkgs_unstable {
+            system = "x86_64-linux";
+            overlays = [ ];
+          };
+        };
+      }
+      // builtins.mapAttrs (name: value: {
+        deployment = self.deployments.${name} or { };
+        nixpkgs.system = value.config.nixpkgs.system;
+        imports = value._module.args.modules;
+      }) (self.nixosConfigurations);
     };
 }
