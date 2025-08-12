@@ -79,7 +79,11 @@
   # Nix configuration
   nix = {
     optimise.automatic = true;
-    gc.automatic = true;
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than +10";
+    };
 
     settings = {
       experimental-features = [
