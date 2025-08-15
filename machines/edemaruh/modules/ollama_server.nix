@@ -14,6 +14,8 @@
       "phi4-mini:3.8b"
       "phi4-mini-reasoning:3.8b"
       "qwen3:8b"
+      # Embeddings
+      "nomic-embed-text:latest"
     ];
     host = "0.0.0.0";
   };
