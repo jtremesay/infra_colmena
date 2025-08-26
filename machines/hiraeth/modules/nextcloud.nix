@@ -21,6 +21,10 @@
     config =
       { pkgs, lib, ... }:
       {
+        programs.neovim = {
+          defaultEditor = true;
+          enable = true;
+        };
         services = {
           nextcloud = {
             enable = true;
