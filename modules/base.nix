@@ -82,7 +82,7 @@
     gc = {
       automatic = true;
       dates = "daily";
-      options = "--delete-older-than +10";
+      options = "--delete-older-than 30d";
     };
 
     settings = {
