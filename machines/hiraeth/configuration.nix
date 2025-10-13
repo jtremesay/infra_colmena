@@ -24,7 +24,7 @@
     ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
-    ./modules/pixelwar.nix
+    # ./modules/pixelwar.nix
     ./modules/rssbridge.nix
     ./modules/vaultwarden.nix
   ];
