@@ -13,7 +13,6 @@
     ./hardware-configuration.nix
     ../../modules/base.nix
     ../../modules/firewall.nix
-    ../../modules/tailscale.nix
     ../../modules/borgmatic.nix
     ../../modules/docker.nix
     ../../modules/github_ci.nix
@@ -24,7 +23,6 @@
     ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
-    # ./modules/pixelwar.nix
     ./modules/rssbridge.nix
     ./modules/vaultwarden.nix
   ];

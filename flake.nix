@@ -52,12 +52,6 @@
       ];
 
       nixosConfigurations = {
-        # edemaruh = nixpkgs.lib.nixosSystem {
-        #   modules = self.commonModules ++ [
-        #     ./machines/edemaruh/configuration.nix
-        #   ];
-        # };
-
         hiraeth = nixpkgs.lib.nixosSystem {
           modules = self.commonModules ++ [
             ./machines/hiraeth/configuration.nix
@@ -66,11 +60,6 @@
       };
 
       deployments = {
-        # edemaruh = {
-        #   #targetHost = "192.168.1.50"; # wlan0
-        #   #targetHost = "192.168.1.168"; # eth0
-        # };
-
         hiraeth = {
           targetHost = "hiraeth.jtremesay.org";
         };
@@ -82,11 +71,6 @@
             system = "x86_64-linux";
             overlays = [ ];
           };
-
-          # nodeNixpkgs.edemaruh = import nixpkgs {
-          #   system = "x86_64-linux";
-          #   overlays = [ ];
-          # };
 
           nodeNixpkgs.hiraeth = import nixpkgs {
             system = "x86_64-linux";

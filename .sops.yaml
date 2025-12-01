@@ -1,13 +1,9 @@
 keys:
   - &admin_jo age1ma7y9pzj5dk04j3jvjde3esfm6led6duludqk375k7hz93jc5a2scmw3ve
-  - &machine_edemaruh age1ejn9t5mf6rmg3v708ejpdmjvrep3tspwx5tnlwkmepexzpt9349qrg7wq6
-  - &machine_music age16z5lmvjvgsmtktqmpaz8x89nqg793fwzn274xcgz08kqa3tq3c9sr0nmyr
   - &machine_hiraeth age1n2q78sfsycx533vq5umcntpe3049c0gp92d38a4307zndylppv4qfdqshc
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *admin_jo
-      - *machine_edemaruh
-      - *machine_music
       - *machine_hiraeth
