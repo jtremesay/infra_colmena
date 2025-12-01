@@ -4,8 +4,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixpkgs_unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,7 +20,6 @@
       home-manager,
       lanzaboote,
       nixpkgs,
-      nixpkgs_unstable,
       sops-nix,
     }:
     let
@@ -54,11 +52,11 @@
       ];
 
       nixosConfigurations = {
-        edemaruh = nixpkgs.lib.nixosSystem {
-          modules = self.commonModules ++ [
-            ./machines/edemaruh/configuration.nix
-          ];
-        };
+        # edemaruh = nixpkgs.lib.nixosSystem {
+        #   modules = self.commonModules ++ [
+        #     ./machines/edemaruh/configuration.nix
+        #   ];
+        # };
 
         hiraeth = nixpkgs.lib.nixosSystem {
           modules = self.commonModules ++ [
@@ -68,13 +66,13 @@
       };
 
       deployments = {
-        edemaruh = {
-          #targetHost = "192.168.1.50"; # wlan0
-          #targetHost = "192.168.1.168"; # eth0
-        };
+        # edemaruh = {
+        #   #targetHost = "192.168.1.50"; # wlan0
+        #   #targetHost = "192.168.1.168"; # eth0
+        # };
 
         hiraeth = {
-          #targetHost = "hiraeth.jtremesay.org";
+          targetHost = "hiraeth.jtremesay.org";
         };
       };
 
@@ -85,12 +83,12 @@
             overlays = [ ];
           };
 
-          nodeNixpkgs.edemaruh = import nixpkgs_unstable {
-            system = "x86_64-linux";
-            overlays = [ ];
-          };
+          # nodeNixpkgs.edemaruh = import nixpkgs {
+          #   system = "x86_64-linux";
+          #   overlays = [ ];
+          # };
 
-          nodeNixpkgs.hiraeth = import nixpkgs_unstable {
+          nodeNixpkgs.hiraeth = import nixpkgs {
             system = "x86_64-linux";
             overlays = [ ];
           };
