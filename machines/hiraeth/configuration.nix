@@ -16,11 +16,12 @@
     ../../modules/borgmatic.nix
     ../../modules/docker.nix
     ../../modules/github_ci.nix
-    ./modules/public_html.nix
+    ./modules/caddy.nix
     ./modules/freshrss.nix
     ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
+    ./modules/public_html.nix
     ./modules/rssbridge.nix
     ./modules/traefik.nix
     ./modules/traefik_dashboard.nix
