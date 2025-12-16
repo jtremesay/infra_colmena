@@ -2,6 +2,7 @@
 {
   services.traefik = {
     enable = true;
+    group = "docker";
 
     staticConfigOptions = {
       log = {
@@ -25,6 +26,13 @@
         https = {
           address = ":443";
           asDefault = true;
+        };
+      };
+
+      providers = {
+        docker = {
+          endpoint = "unix:///run/docker.sock";
+          exposedByDefault = false;
         };
       };
 
