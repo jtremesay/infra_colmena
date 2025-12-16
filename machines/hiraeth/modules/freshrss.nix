@@ -63,11 +63,6 @@
         };
 
         networking = {
-          useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-          ];
           firewall.allowedTCPPorts = [
             80
           ];
@@ -77,10 +72,23 @@
       };
   };
 
-  services.caddy.virtualHosts."rss.jtremesay.org" = {
-    extraConfig = ''
-      reverse_proxy freshrss:80
-    '';
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."freshrss" = {
+        rule = "Host(`rss.jtremesay.org`)";
+        service = "freshrss";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."freshrss" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://${config.containers.freshrss.localAddress}:80"; }
+          ];
+        };
+      };
+    };
   };
 
   services.borgmatic.settings.source_directories = [

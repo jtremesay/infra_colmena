@@ -41,11 +41,6 @@
         };
 
         networking = {
-          useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-          ];
           firewall.allowedTCPPorts = [
             8065
           ];
@@ -55,10 +50,23 @@
       };
   };
 
-  services.caddy.virtualHosts."mattermost.jtremesay.org" = {
-    extraConfig = ''
-      reverse_proxy mattermost:8065
-    '';
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."mattermost" = {
+        rule = "Host(`mattermost.jtremesay.org`)";
+        service = "mattermost";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."mattermost" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://${config.containers.mattermost.localAddress}:8065"; }
+          ];
+        };
+      };
+    };
   };
 
   services.borgmatic.settings.source_directories = [

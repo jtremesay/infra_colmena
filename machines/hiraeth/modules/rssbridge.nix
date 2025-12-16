@@ -24,11 +24,6 @@
         };
 
         networking = {
-          useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-          ];
           firewall.allowedTCPPorts = [
             80
           ];
@@ -38,9 +33,22 @@
       };
   };
 
-  services.caddy.virtualHosts."rssbridge.jtremesay.org" = {
-    extraConfig = ''
-      reverse_proxy rssbridge:80
-    '';
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."rssbridge" = {
+        rule = "Host(`rssbridge.jtremesay.org`)";
+        service = "rssbridge";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."rssbridge" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://${config.containers.rssbridge.localAddress}:80"; }
+          ];
+        };
+      };
+    };
   };
 }

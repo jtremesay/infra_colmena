@@ -61,11 +61,6 @@
         };
 
         networking = {
-          useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-          ];
           firewall.allowedTCPPorts = [
             80
           ];
@@ -75,10 +70,23 @@
       };
   };
 
-  services.caddy.virtualHosts."cloud.jtremesay.org" = {
-    extraConfig = ''
-      reverse_proxy nextcloud:80
-    '';
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."nextcloud" = {
+        rule = "Host(`cloud.jtremesay.org`)";
+        service = "nextcloud";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."nextcloud" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://${config.containers.nextcloud.localAddress}:80"; }
+          ];
+        };
+      };
+    };
   };
 
   services.borgmatic.settings.source_directories = [

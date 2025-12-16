@@ -19,11 +19,6 @@
         };
 
         networking = {
-          useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-          ];
           firewall.allowedTCPPorts = [
             8000
           ];
@@ -33,10 +28,23 @@
       };
   };
 
-  services.caddy.virtualHosts."vault.jtremesay.org" = {
-    extraConfig = ''
-      reverse_proxy vaultwarden:8000
-    '';
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."vaultwarden" = {
+        rule = "Host(`vault.jtremesay.org`)";
+        service = "vaultwarden";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."vaultwarden" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://${config.containers.vaultwarden.localAddress}:8000"; }
+          ];
+        };
+      };
+    };
   };
 
   services.borgmatic.settings.source_directories = [
