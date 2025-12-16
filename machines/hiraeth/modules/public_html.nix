@@ -5,13 +5,30 @@
   ...
 }:
 {
-  services.caddy.virtualHosts."jtremesay.org" = {
+  services.caddy.virtualHosts."http://users.jtremesay.org:8000" = {
     extraConfig = ''
-      handle_path /~* {
-        root * /srv/http/public_html
-        file_server browse
-      }
+      root * /srv/http/public_html
+      file_server browse
     '';
+  };
+
+  services.traefik.dynamicConfigOptions = {
+    http = {
+      routers."users" = {
+        rule = "Host(`users.jtremesay.org`)";
+        service = "users";
+        entryPoints = [ "https" ];
+        tls.certResolver = "le";
+      };
+
+      services."users" = {
+        loadBalancer = {
+          servers = [
+            { url = "http://127.0.0.1:8000"; }
+          ];
+        };
+      };
+    };
   };
 
   systemd.tmpfiles.rules = [
