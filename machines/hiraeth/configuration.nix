@@ -16,7 +16,7 @@
     ../../modules/borgmatic.nix
     ../../modules/docker.nix
     ../../modules/github_ci.nix
-    ./modules/reverse_proxy.nix
+    #./modules/reverse_proxy.nix
     ./modules/public_html.nix
     ./modules/freshrss.nix
     ./modules/jtremesay_org.nix
@@ -24,6 +24,8 @@
     ./modules/mirrors
     ./modules/nextcloud.nix
     ./modules/rssbridge.nix
+    ./modules/traefik.nix
+    ./modules/traefik_dashboard.nix
     ./modules/vaultwarden.nix
   ];
 
