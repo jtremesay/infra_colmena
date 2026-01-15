@@ -43,9 +43,7 @@
         networking = {
           useHostResolvConf = lib.mkForce false;
           nameservers = [
-            "193.110.81.0"
-            "185.253.5.0"
-
+            "86.54.11.100" # https://www.joindns4.eu
           ];
           firewall.allowedTCPPorts = [
             8065
