@@ -30,7 +30,6 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
-
           deploy-rs.packages.${pkgs.system}.deploy-rs
           age
           fish
