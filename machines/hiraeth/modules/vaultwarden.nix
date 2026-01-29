@@ -12,6 +12,7 @@ in
     host = lib.mkOption {
       type = lib.types.str;
       description = "Hostname for the vaultwarden service";
+      default = "vault.jtremesay.org";
     };
   };
 

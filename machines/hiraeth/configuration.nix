@@ -33,7 +33,6 @@
 
   services.vaultwarden-container = {
     localAddress = "192.168.100.12";
-    host = "vault.jtremesay.org";
   };
 
   networking = {
