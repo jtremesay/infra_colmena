@@ -25,7 +25,7 @@
     ./modules/public_html.nix
     ./modules/rssbridge.nix
     ../../modules/web/traefik.nix
-    ./modules/traefik_dashboard.nix
+    ../../modules/web/traefik_dashboard.nix
     ../../modules/web/vaultwarden.nix
   ];
 
