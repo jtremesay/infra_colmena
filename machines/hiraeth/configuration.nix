@@ -17,7 +17,7 @@
     ../../modules/services/borgmatic.nix
     ../../modules/services/docker.nix
     ../../modules/services/github_ci.nix
-    ./modules/caddy.nix
+    ../../modules/web/caddy.nix
     ./modules/freshrss.nix
     ./modules/mattermost.nix
     ./modules/mirrors
