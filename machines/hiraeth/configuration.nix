@@ -18,7 +18,7 @@
     ../../modules/services/docker.nix
     ../../modules/services/github_ci.nix
     ../../modules/web/caddy.nix
-    ./modules/freshrss.nix
+    ../../modules/web/freshrss.nix
     ../../modules/web/mattermost.nix
     ./modules/mirrors
     ../../modules/web/nextcloud.nix
@@ -32,6 +32,7 @@
   networking.hostName = "hiraeth";
 
   slaanesh = {
+    freshrss.localAddress = "192.168.100.10";
     rssbridge.localAddress = "192.168.100.11";
     vaultwarden.localAddress = "192.168.100.12";
     nextcloud.localAddress = "192.168.100.13";
