@@ -22,7 +22,7 @@
     ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
-    ./modules/public_html.nix
+    ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
     ../../modules/web/traefik.nix
     ../../modules/web/traefik_dashboard.nix
