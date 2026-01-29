@@ -41,7 +41,7 @@
           ssh-to-age
         ];
         shellHook = ''
-          exec ${pkgs.fish}/bin/fish
+          NIXPKGS_ALLOW_UNFREE=1 exec ${pkgs.fish}/bin/fish
         '';
       };
 
