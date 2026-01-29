@@ -1,5 +1,6 @@
 {
   inputs = {
+    colmena.url = "github:zhaofengli/colmena";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +18,7 @@
   outputs =
     {
       self,
+      colmena,
       home-manager,
       lanzaboote,
       nixpkgs,
@@ -27,12 +29,18 @@
       pkgs = import nixpkgs {
         inherit system;
       };
+
+      commonModules = [
+        home-manager.nixosModules.home-manager
+        lanzaboote.nixosModules.lanzaboote
+        sops-nix.nixosModules.sops
+      ];
     in
     {
       devShells.${system}.default = pkgs.mkShell {
         packages = with pkgs; [
           age
-          colmena
+          colmena.packages.${system}.colmena
           fish
           nil
           nixd
@@ -41,47 +49,31 @@
           ssh-to-age
         ];
         shellHook = ''
-          NIXPKGS_ALLOW_UNFREE=1 exec ${pkgs.fish}/bin/fish
+          exec ${pkgs.fish}/bin/fish
         '';
       };
 
-      commonModules = [
-        home-manager.nixosModules.home-manager
-        lanzaboote.nixosModules.lanzaboote
-        sops-nix.nixosModules.sops
-      ];
-
-      nixosConfigurations = {
-        hiraeth = nixpkgs.lib.nixosSystem {
-          modules = self.commonModules ++ [
-            ./machines/hiraeth/configuration.nix
-          ];
-        };
-      };
-
-      deployments = {
-        hiraeth = {
-          targetHost = "hiraeth.jtremesay.org";
-        };
-      };
-
-      colmena = {
+      colmenaHive = colmena.lib.makeHive {
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
             overlays = [ ];
           };
-
-          nodeNixpkgs.hiraeth = import nixpkgs {
-            system = "x86_64-linux";
-            overlays = [ ];
-          };
         };
-      }
-      // builtins.mapAttrs (name: value: {
-        deployment = self.deployments.${name} or { };
-        nixpkgs.system = value.config.nixpkgs.system;
-        imports = value._module.args.modules;
-      }) (self.nixosConfigurations);
+
+        music = {
+          deployment = {
+            targetHost = "192.168.1.79";
+          };
+          imports = commonModules ++ [ ./machines/music/configuration.nix ];
+        };
+
+        hiraeth = {
+          deployment = {
+            targetHost = "hiraeth.jtremesay.org";
+          };
+          imports = commonModules ++ [ ./machines/hiraeth/configuration.nix ];
+        };
+      };
     };
 }
