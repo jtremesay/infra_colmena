@@ -9,6 +9,8 @@
     config =
       { pkgs, lib, ... }:
       {
+        imports = [ ../../../modules/dns/dns.nix ];
+
         services.rss-bridge = {
           enable = true;
           config = {
@@ -25,9 +27,6 @@
 
         networking = {
           useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "86.54.11.100" # https://www.joindns4.eu
-          ];
           firewall.allowedTCPPorts = [
             80
           ];

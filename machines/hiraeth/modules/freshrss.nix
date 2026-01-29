@@ -21,6 +21,8 @@
     config =
       { pkgs, lib, ... }:
       {
+        imports = [ ../../../modules/dns/dns.nix ];
+
         systemd = {
           timers.freshrss-actualize = {
             wantedBy = [ "timers.target" ];
@@ -64,10 +66,6 @@
 
         networking = {
           useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "86.54.11.100" # https://www.joindns4.eu
-
-          ];
           firewall.allowedTCPPorts = [
             80
           ];

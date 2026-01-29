@@ -9,6 +9,8 @@
     config =
       { pkgs, lib, ... }:
       {
+        imports = [ ../../../modules/dns/dns.nix ];
+
         environment.systemPackages = with pkgs; [
           mmctl
         ];
@@ -42,9 +44,6 @@
 
         networking = {
           useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "86.54.11.100" # https://www.joindns4.eu
-          ];
           firewall.allowedTCPPorts = [
             8065
           ];

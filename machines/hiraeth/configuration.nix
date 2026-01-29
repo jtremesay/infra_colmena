@@ -12,10 +12,11 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/base.nix
-    ../../modules/firewall.nix
-    ../../modules/borgmatic.nix
-    ../../modules/docker.nix
-    ../../modules/github_ci.nix
+    ../../modules/dns/resolved.nix
+    ../../modules/network/firewall.nix
+    ../../modules/services/borgmatic.nix
+    ../../modules/services/docker.nix
+    ../../modules/services/github_ci.nix
     ./modules/caddy.nix
     ./modules/freshrss.nix
     ./modules/mattermost.nix

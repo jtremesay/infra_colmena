@@ -21,6 +21,8 @@
     config =
       { pkgs, lib, ... }:
       {
+        imports = [ ../../../modules/dns/dns.nix ];
+
         programs.neovim = {
           defaultEditor = true;
           enable = true;
@@ -62,9 +64,6 @@
 
         networking = {
           useHostResolvConf = lib.mkForce false;
-          nameservers = [
-            "86.54.11.100" # https://www.joindns4.eu
-          ];
           firewall.allowedTCPPorts = [
             80
           ];

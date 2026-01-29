@@ -14,8 +14,9 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/base.nix
-    ../../modules/firewall.nix
-    ../../modules/borgmatic.nix
+    ../../modules/dns/resolved.nix
+    ../../modules/network/firewall.nix
+    ../../modules/services/borgmatic.nix
   ];
 
   networking.hostName = "music";
