@@ -21,7 +21,7 @@
     ./modules/freshrss.nix
     ./modules/mattermost.nix
     ./modules/mirrors
-    ./modules/nextcloud.nix
+    ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
     ../../modules/web/traefik.nix
@@ -34,6 +34,7 @@
   slaanesh = {
     rssbridge.localAddress = "192.168.100.11";
     vaultwarden.localAddress = "192.168.100.12";
+    nextcloud.localAddress = "192.168.100.13";
   };
 
   networking = {
