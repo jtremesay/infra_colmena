@@ -23,7 +23,7 @@
     ./modules/mirrors
     ./modules/nextcloud.nix
     ./modules/public_html.nix
-    ./modules/rssbridge.nix
+    ../../modules/web/rssbridge.nix
     ../../modules/web/traefik.nix
     ../../modules/web/traefik_dashboard.nix
     ../../modules/web/vaultwarden.nix
@@ -31,7 +31,10 @@
 
   networking.hostName = "hiraeth";
 
-  slaanesh.vaultwarden.localAddress = "192.168.100.12";
+  slaanesh = {
+    rssbridge.localAddress = "192.168.100.11";
+    vaultwarden.localAddress = "192.168.100.12";
+  };
 
   networking = {
     nat = {
