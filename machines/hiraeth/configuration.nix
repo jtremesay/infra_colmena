@@ -21,7 +21,6 @@
     ./modules/mattermost.nix
     ./modules/mirrors
     ./modules/nextcloud.nix
-    #./modules/openwebui.nix
     ./modules/public_html.nix
     ./modules/rssbridge.nix
     ./modules/traefik.nix
