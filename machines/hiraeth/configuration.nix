@@ -19,7 +19,7 @@
     ../../modules/services/github_ci.nix
     ../../modules/web/caddy.nix
     ./modules/freshrss.nix
-    ./modules/mattermost.nix
+    ../../modules/web/mattermost.nix
     ./modules/mirrors
     ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
@@ -35,6 +35,7 @@
     rssbridge.localAddress = "192.168.100.11";
     vaultwarden.localAddress = "192.168.100.12";
     nextcloud.localAddress = "192.168.100.13";
+    mattermost.localAddress = "192.168.100.14";
   };
 
   networking = {
