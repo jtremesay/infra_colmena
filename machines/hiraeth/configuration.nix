@@ -20,7 +20,7 @@
     ../../modules/web/caddy.nix
     ../../modules/web/freshrss.nix
     ../../modules/web/mattermost.nix
-    ./modules/mirrors
+    ../../modules/mirrors
     ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
