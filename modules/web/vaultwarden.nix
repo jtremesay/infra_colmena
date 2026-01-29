@@ -1,9 +1,9 @@
 { config, lib, ... }:
 let
-  cfg = config.services.vaultwarden-container;
+  cfg = config.slaanesh.vaultwarden;
 in
 {
-  options.services.vaultwarden-container = {
+  options.slaanesh.vaultwarden = {
     localAddress = lib.mkOption {
       type = lib.types.str;
       description = "Local IP address for the vaultwarden container";
@@ -26,7 +26,7 @@ in
       config =
         { pkgs, lib, ... }:
         {
-          imports = [ ../../../modules/dns/dns.nix ];
+          imports = [ ../dns/dns.nix ];
 
           services.vaultwarden = {
             enable = true;

@@ -26,14 +26,12 @@
     ./modules/rssbridge.nix
     ../../modules/web/traefik.nix
     ./modules/traefik_dashboard.nix
-    ./modules/vaultwarden.nix
+    ../../modules/web/vaultwarden.nix
   ];
 
   networking.hostName = "hiraeth";
 
-  services.vaultwarden-container = {
-    localAddress = "192.168.100.12";
-  };
+  slaanesh.vaultwarden.localAddress = "192.168.100.12";
 
   networking = {
     nat = {
