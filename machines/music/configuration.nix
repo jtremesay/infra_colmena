@@ -16,6 +16,7 @@
     ../../modules/base.nix
     ../../modules/dns/resolved.nix
     ../../modules/network/firewall.nix
+    ../../modules/network/tailscale.nix
     ../../modules/services/borgmatic.nix
   ];
 

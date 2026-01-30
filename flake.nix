@@ -63,7 +63,7 @@
 
         music = {
           deployment = {
-            targetHost = "192.168.1.50";
+            targetHost = "192.168.1.79";
           };
           imports = commonModules ++ [ ./machines/music/configuration.nix ];
         };
