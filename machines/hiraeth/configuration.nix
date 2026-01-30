@@ -14,13 +14,13 @@
     ../../modules/base.nix
     ../../modules/dns/resolved.nix
     ../../modules/network/firewall.nix
+    ../../modules/mirrors
     ../../modules/services/borgmatic.nix
     ../../modules/services/docker.nix
     ../../modules/services/github_ci.nix
     ../../modules/web/caddy.nix
     ../../modules/web/freshrss.nix
     ../../modules/web/mattermost.nix
-    ../../modules/mirrors
     ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
@@ -37,6 +37,7 @@
     vaultwarden.localAddress = "192.168.100.12";
     nextcloud.localAddress = "192.168.100.13";
     mattermost.localAddress = "192.168.100.14";
+    headscale.localAddress = "192.168.100.15";
   };
 
   networking = {
