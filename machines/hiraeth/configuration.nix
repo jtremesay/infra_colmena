@@ -14,6 +14,7 @@
     ../../modules/base.nix
     ../../modules/dns/resolved.nix
     ../../modules/network/firewall.nix
+    ../../modules/network/headscale.nix
     ../../modules/network/tailscale.nix
     ../../modules/mirrors
     ../../modules/services/borgmatic.nix
@@ -38,6 +39,7 @@
     vaultwarden.localAddress = "192.168.100.12";
     nextcloud.localAddress = "192.168.100.13";
     mattermost.localAddress = "192.168.100.14";
+    headscale.localAddress = "192.168.100.15";
   };
 
   networking = {
