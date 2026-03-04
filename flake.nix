@@ -70,7 +70,7 @@
 
         hiraeth = {
           deployment = {
-            targetHost = "hiraeth.jtremesay.org";
+            #targetHost = "hiraeth.jtremesay.org";
           };
           imports = commonModules ++ [ ./machines/hiraeth/configuration.nix ];
         };
