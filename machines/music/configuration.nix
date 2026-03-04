@@ -18,6 +18,7 @@
     ../../modules/network/firewall.nix
     ../../modules/network/tailscale.nix
     ../../modules/services/borgmatic.nix
+    ../../modules/desktop/sway.nix
   ];
 
   networking.hostName = "music";
