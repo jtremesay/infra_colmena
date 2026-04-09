@@ -2,19 +2,29 @@
 
 ## Project Overview
 
-This is a **NixOS infrastructure** managed with **Colmena**, a distributed NixOS deployment orchestrator. The project provides declarative, reproducible configuration for multiple personal machines with automated secrets management, containerized services, backup automation, and centralized security policies.
+This is a **hybrid infrastructure** combining declarative NixOS configuration (via **Colmena**) with dynamic containerized services deployed via **Docker Swarm**:
 
-- **Language**: Nix (functional configuration language for NixOS)
-- **Deployment**: Colmena v0.4.x + Home Manager + sops-nix (secrets encryption)
-- **Target**: x86_64-linux (NixOS 25.11)
+- **Static Layer** (this repo): NixOS configuration for machines, third-party services (Freshrss, Nextcloud, Mattermost, Vaultwarden, RSSBridge), DNS, firewalls, backups, and base system configuration. Managed declaratively via Nix.
+- **Dynamic Layer** (external repos + CI/CD): Custom applications and microservices orchestrated by Docker Swarm. Autodiscovered and routed by Traefik. Managed independently via separate Git repositories and deployment pipelines.
+- **Networking**: Caddy (host) terminates TLS for all traffic → Traefik (container) routes to Swarm services. Traefik also routes legacy static services still running in NixOS containers.
+
+**Technology Stack**:
+- **Language**: Nix (static layer) + Docker Compose/Swarm (dynamic layer)
+- **Deployment**: Colmena v0.4.x (static), Docker Swarm (dynamic)
+- **Orchestration**: Home Manager, sops-nix (static secrets), Docker Swarm secrets (dynamic)
+- **Targets**: x86_64-linux, NixOS 25.11
 
 ## Machine Architecture
 
 ### `hiraeth` (Server)
-- **Role**: Multi-service production server
-- **Services**: DNS, Traefik reverse proxy, containerized web apps (Freshrss, Nextcloud, Mattermost, Vaultwarden, RSSBridge), Headscale VPN, Borgmatic backups, GitHub CI runner
+- **Role**: Central infrastructure hub — runs static services and Docker Swarm orchestrator
+- **Static Services** (NixOS containers): DNS, third-party web apps (Freshrss, Nextcloud, Mattermost, Vaultwarden, RSSBridge), Headscale VPN, Borgmatic backups, GitHub CI runner
+- **Dynamic Layer**: Docker Swarm orchestrator + Traefik service mesh (autodiscovers Swarm services)
+- **Frontals**: 
+  - **Caddy**: Host-level reverse proxy, TLS termination for all external traffic
+  - **Traefik**: Container-level routing for both NixOS containers (192.168.100.0/24) and Docker Swarm services
 - **Hardware**: Uses hardware-configuration.nix for EFI/BIOS, secure boot (Lanzaboote)
-- **Networking**: nftables firewall, NAT for containers (192.168.100.0/24), external interface `eno1`
+- **Networking**: nftables firewall, Docker Swarm overlay networks, NAT for legacy NixOS containers (192.168.100.0/24), external interface `eno1`
 
 ### `music` (Desktop)
 - **Role**: Personal desktop/workstation
@@ -22,9 +32,65 @@ This is a **NixOS infrastructure** managed with **Colmena**, a distributed NixOS
 - **Desktop Environment**: Sway (Wayland compositor) with Fish shell
 
 ### Shared Configuration
-- **Base module** ([modules/base.nix](modules/base.nix)): SSH hardening, systemd-boot, console/locale settings, common programs
+- **Base module** ([modules/base.nix](modules/base.nix)): SSH hardening, systemd-boot, console/locale settings, common programs, Docker daemon setup
 - **Home Manager**: User environments (jtremesay, root)
-- **Secrets**: Age-encrypted via sops-nix, stored in [secrets/default.yaml](secrets/default.yaml)
+- **Secrets (Static Layer)**: Age-encrypted via sops-nix, stored in [secrets/default.yaml](secrets/default.yaml)
+- **Secrets (Dynamic Layer)**: Managed via Docker Swarm secrets or injected by external CI/CD pipelines (outside scope of this repo)
+
+## Infrastructure Architecture: Static vs Dynamic
+
+Understanding the separation of concerns is critical:
+
+### Static Layer (This Repository)
+**What**: Declarative NixOS configuration for machines, third-party services, system-level settings.  
+**Managed By**: Colmena deployments, sops-nix for secrets.  
+**Scope**: Machines, base OS, DNS, firewalls, certified third-party services (Freshrss, Nextcloud, etc.), backups.  
+**Key Principle**: Everything is declared in Nix — can be fully reproduced by running `colmena apply`.
+
+**Services in Static Layer** (all run in NixOS containers):
+- DNS (systemd-resolved, coredns)
+- Reversing Proxy chain: Caddy (host) → Traefik (container) → services
+- Third-party software: Freshrss, Nextcloud, Mattermost, Vaultwarden, RSSBridge
+- Backup system: Borgmatic
+- CI/CD runner: GitHub Actions runner
+- VPN: Headscale
+
+### Dynamic Layer (External Repositories)
+**What**: Custom applications and microservices, orchestrated by Docker Swarm, managed via external Git repos and CI/CD pipelines.  
+**Managed By**: Docker Swarm + service CI/CD pipelines (outside this repo).  
+**Scope**: Custom applications, business logic, frequently-deployed services.  
+**Key Principle**: Deploy independently without touching this repo. Traefik autodiscovers and routes via Swarm labels.
+
+**Why Separate?**
+- Static layer (Nix) is immutable, reproducible, version-controlled, and slow-to-rebuild:
+  - Pulling third-party Docker images in Nix is non-declarative
+  - NixOS containers have overhead for simple services
+  - Rebuilding static layer for each app change is inefficient
+- Dynamic layer (Swarm) is mutable, fast, and tight-loop friendly:
+  - Deploy, scale, update services without full NixOS rebuild
+  - Each service owns its deploy pipeline
+  - Better for rapid iteration on personal projects
+
+### Traffic Flow
+```
+External request
+    ↓
+Internet → eno1:443 (Caddy on host)
+    ↓
+Caddy terminates TLS, routes to backend
+    ↓
+┌─────────────────────────────────────┐
+│         Traefik (container)         │ (routes based on Host header)
+├─────────────────┬───────────────────┤
+│  NixOS Services │  Docker Services  │
+│  (192.168.100.x)│  (Swarm overlay)  │
+│                 │                   │
+│ • Freshrss      │ • App1            │
+│ • Nextcloud     │ • App2            │
+│ • Mattermost    │ • microservice-x  │
+│ • ...           │ • ...             │
+└─────────────────┴───────────────────┘
+```
 
 ## Module Organization
 
@@ -153,32 +219,57 @@ config = {
 5. To add new servers, get their public key: `ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub`
 6. Update keys: `sops updatekeys secrets/default.yaml`
 
-### 4. **Service Routing via Traefik**
+### 4. **Service Routing via Caddy & Traefik**
 
-Traefik (running in `containers.traefik`) dynamically routes all HTTP(S) traffic:
+**Caddy** (running on host) handles TLS termination:
+```bash
+# docker/traefik/compose.yaml - Caddy listens on :443
+services:
+  caddy:
+    ports:
+      - "443:443"      # External TLS
+    environment:
+      - BACKEND=http://traefik:80  # Forward to Traefik
+```
 
+**Traefik** (running in `containers.traefik`) routes traffic to both NixOS and Swarm services:
+
+**For NixOS containers** (legacy pattern in static layer):
 ```nix
 services.traefik.dynamicConfigOptions = {
   http = {
     routers."SERVICE_NAME" = {
       rule = "Host(`${cfg.host}`)";
       service = "SERVICE_NAME";
-      entryPoints = [ "https" ];  # Use "http" for unencrypted
+      entryPoints = [ "https" ];  # Already decrypted by Caddy
     };
     services."SERVICE_NAME" = {
       loadBalancer.servers = [
-        { url = "http://${cfg.localAddress}:80"; }
+        { url = "http://${cfg.localAddress}:80"; }  # 192.168.100.x
       ];
     };
   };
 };
 ```
 
+**For Docker Swarm services** (dynamic layer, autodiscovered):
+Traefik discovers services via Docker Swarm labels at deployment time. Example from external app repo:
+```yaml
+services:
+  myapp:
+    image: myapp:latest
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.myapp.rule=Host(\"myapp.jtremesay.org\")
+        - traefik.http.services.myapp.loadbalancer.server.port=8080
+```
+
 **Key Points**:
-- Service names must be unique across all modules
-- Container IP must match `cfg.localAddress`
-- Port inside container (usually 80) routed to external hostname
-- TLS certificates auto-provisioned via Let's Encrypt
+- Caddy is the single entry point (TLS termination)
+- Traefik routes all backend traffic (both static NixOS and dynamic Swarm)
+- NixOS services: declarative in Nix, static IP addresses
+- Swarm services: autodiscovered via labels, deployed externally
 
 ### 5. **Database Setup (PostgreSQL in Containers)**
 
@@ -293,9 +384,13 @@ ssh root@hiraeth.jtremesay.org
 nixos-container root-login freshrss
 ```
 
-## Adding a New Containerized Service
+## Adding a New Service
 
-### Step 1: Create Module File
+### Adding a Static Service (NixOS Container)
+
+For third-party or infrastructure services that should be managed declaratively in Nix.
+
+#### Step 1: Create Module File
 
 Create `modules/web/newservice.nix`:
 
@@ -368,7 +463,7 @@ in
 }
 ```
 
-### Step 2: Add to Machine Configuration
+#### Step 2: Add to Machine Configuration
 
 Edit `machines/hiraeth/configuration.nix`:
 
@@ -384,7 +479,7 @@ slaanesh = {
 };
 ```
 
-### Step 3: Add Secrets
+#### Step 3: Add Secrets
 
 Edit secrets file:
 
@@ -398,13 +493,56 @@ newservice:
   api_key: "your-secret-value-here"
 ```
 
-### Step 4: Deploy
+#### Step 4: Deploy
 
 ```bash
 nixos-rebuild switch --flake .#hiraeth
 # Or via Colmena:
 colmena apply --on hiraeth
 ```
+
+### Adding a Dynamic Service (Docker Swarm)
+
+For custom applications that should be deployed independently via Swarm.
+
+**This approach**:
+1. Create a separate Git repository for the service
+2. Include `docker-compose.yml` or `docker-stack.yml` with Traefik labels
+3. Use CI/CD pipeline (e.g., GitHub Actions) to deploy to Swarm
+4. Traefik automatically discovers and routes the service
+5. **No changes needed in this repo**
+
+Example:
+```yaml
+# In external app repo: docker-stack.yml
+version: '3.8'
+services:
+  myapp:
+    image: registry.example.com/myapp:latest
+    deploy:
+      replicas: 2
+      labels:
+        traefik.enable: "true"
+        traefik.http.routers.myapp.rule: "Host(\"myapp.jtremesay.org\")"
+        traefik.http.services.myapp.loadbalancer.server.port: "8080"
+    environment:
+      - LOG_LEVEL=info
+      # Secrets injected by Docker Swarm or CI/CD
+      - DB_PASSWORD_FILE=/run/secrets/db_password
+    secrets:
+      - db_password
+
+secrets:
+  db_password:
+    external: true  # Created by CI/CD pipeline
+```
+
+Deploy via CI/CD:
+```bash
+docker stack deploy -c docker-stack.yml myapp
+```
+
+**Benefit**: Update frequency, scale, and secrets are independent. This repo doesn't need to rebuild.
 
 ## Security Considerations
 
@@ -427,20 +565,28 @@ colmena apply --on hiraeth
 
 ## Quick Reference
 
-### Flake Inputs
+### Flake Inputs (Static Layer)
 - `colmena` – Distributed NixOS deployment
 - `home-manager` – User-specific configurations
 - `nixpkgs` – NixOS 25.11 package repository
 - `sops-nix` – Age-encrypted secrets integration
 - `lanzaboote` – Secure Boot support
 
-### Important Paths
+### Important Paths (Static Layer)
 - `flake.nix` – Project entry point, machine definitions
 - `machines/*/configuration.nix` – Machine-specific config
-- `modules/` – Reusable NixOS modules
-- `secrets/default.yaml` – Encrypted secret store
+- `modules/` – Reusable NixOS modules for static services
+- `secrets/default.yaml` – Age-encrypted secret store (NixOS services)
 - `users/*/default.nix` – Home Manager configurations
 - `.sops.yaml` – Secrets encryption key management
+- `docker/traefik/` – Caddy + Traefik configuration for routing
+
+### Dynamic Layer (External)
+- Separate Git repositories per service/project
+- Docker Swarm stack files (`docker-stack.yml`)
+- CI/CD pipelines (GitHub Actions, etc.) for deployment
+- Docker Swarm secrets (managed externally)
+- See Traefik labels in service stacks for routing rules
 
 ### Debugging Commands
 
@@ -481,18 +627,38 @@ cat /run/secrets/SERVICE/secret_name  # View value
 3. Check file permissions: `ls -la /run/secrets/`
 
 **Traefik not routing**:
-1. Verify container IP: `ip addr` inside container
-2. Check dynamic config: `curl http://localhost:8080/api/http/routers` (Traefik API)
-3. Test DNS: `dig service.jtremesay.org`
+1. Verify container IP: `ip addr` inside container (NixOS services)
+2. Check Swarm services: `docker service ls` (dynamic services)
+3. Inspect Traefik config: `curl http://localhost:8080/api/http/routers` (Traefik API)
+4. Test DNS: `dig service.jtremesay.org`
+5. Check Caddy logs: `docker logs caddy` or `journalctl -xe` on host
+
+**Docker Swarm service not discovered**:
+1. Verify Traefik labels are correct in docker-compose
+2. Check Traefik logs: `docker service logs -f traefik_traefik`
+3. Confirm service is running: `docker service ps SERVICE_NAME`
+4. Test connectivity: `docker exec CONTAINER_ID curl http://localhost:8080`
 
 ## References
 
+### Static Layer (NixOS / Nix)
 - [NixOS Manual](https://nixos.org/manual/nixos/stable/)
 - [NixOS Options Search](https://search.nixos.org/options)
 - [Home Manager Manual](https://nix-community.github.io/home-manager/options.xhtml)
 - [Colmena Documentation](https://colmena.cli.rs/unstable/)
 - [sops-nix GitHub](https://github.com/Mic92/sops-nix)
 - [Lanzaboote (SecureBoot)](https://github.com/nix-community/lanzaboote)
+
+### Dynamic Layer (Docker / Swarm)
+- [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
+- [Docker Compose Specification](https://github.com/compose-spec/compose-spec)
+- [Traefik Documentation](https://doc.traefik.io/traefik/)
+- [Docker Labels for Traefik](https://doc.traefik.io/traefik/providers/docker/)
+- [Caddy Documentation](https://caddyserver.com/docs/)
+
+### Hybrid Architecture
+- [NixOS Containers](https://nixos.wiki/wiki/NixOS_Containers)
+- [Docker Integration with NixOS](https://nixos.wiki/wiki/Docker)
 
 ## Style Guide
 
