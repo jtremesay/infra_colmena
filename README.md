@@ -4,6 +4,8 @@ My [NixOS](https://nixos.org/) infra managed with [Colmena](https://github.com/z
 
 Notes: I have no fucking idea of what I'm doing. Use it at your own risk.
 
+![infra](infra.mermaid.svg)
+
 ## Usage
 
 Enter in the development environment:

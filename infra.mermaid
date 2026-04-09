@@ -1,0 +1,71 @@
+graph TB
+    Internet["🌐 Internet"]
+
+    subgraph hiraeth["hiraeth (NixOS)"]
+        Caddy["Caddy"]
+
+        subgraph mod_web_freshrss["container"]
+            FreshRSS["FreshRSS"]
+            FreshRSS_PG[("PostgreSQL")]
+            FreshRSS --> FreshRSS_PG
+        end
+
+        subgraph mod_web_rssbridge["container"]
+            RSSBridge["RSS-Bridge"]
+        end
+
+        subgraph mod_web_vaultwarden["container"]
+            Vaultwarden["Vaultwarden"]
+        end
+
+        subgraph mod_web_nextcloud["container"]
+            Nextcloud["Nextcloud"]
+            Nextcloud_PG[("PostgreSQL")]
+            Nextcloud --> Nextcloud_PG
+        end
+
+        subgraph mod_web_mattermost["container"]
+            Mattermost["Mattermost"]
+            Mattermost_PG[("PostgreSQL")]
+            Mattermost --> Mattermost_PG
+        end
+
+        subgraph mod_net_headscale["container"]
+            Headscale["Headscale"]
+        end
+
+        PublicHTML["/srv/http/public_html"]
+        Mirrors["/srv/http/mirrors"]
+
+        subgraph mod_swarm["Docker Swarm"]
+            Traefik["Traefik"]
+            JtremesayOrg["jtremesay.org"]
+            CamilleOrg["camille.jtremesay.org"]
+            Traefik --> JtremesayOrg
+            Traefik --> CamilleOrg
+        end
+
+        Borgmatic["Borgmatic"]
+    end
+
+    Sway["Hetzner Storage Box"]
+
+    Internet --> Caddy
+
+    Caddy -->|"rss.jtremesay.org"| FreshRSS
+    Caddy -->|"rssbridge.jtremesay.org"| RSSBridge
+    Caddy -->|"vault.jtremesay.org"| Vaultwarden
+    Caddy -->|"cloud.jtremesay.org"| Nextcloud
+    Caddy -->|"mattermost.jtremesay.org"| Mattermost
+    Caddy -->|"headscale.jtremesay.org"| Headscale
+    Caddy -->|"users.jtremesay.org"| PublicHTML
+    Caddy -.->|"mirrors.jtremesay.org"| Mirrors
+    Caddy -->|"*.jtremesay.org (swarm)"| Traefik
+
+    FreshRSS_PG -.->|"backup"| Borgmatic 
+    Nextcloud_PG -.->|"backup"| Borgmatic 
+    Mattermost_PG -.->|"backup"| Borgmatic 
+    Vaultwarden -.->|"backup"| Borgmatic 
+    mod_swarm -.->|"backup"| Borgmatic
+
+    Borgmatic -.->|"backup"| Sway
