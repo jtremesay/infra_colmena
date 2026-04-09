@@ -38,6 +38,11 @@
     nextcloud.localAddress = "192.168.100.13";
     mattermost.localAddress = "192.168.100.14";
     headscale.localAddress = "192.168.100.15";
+
+    caddy.reverseProxies = {
+      # Docker swarm services
+      "traefik.jtremesay.org" = "http://localhost:8000";
+    };
   };
 
   networking = {
