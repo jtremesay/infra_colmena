@@ -12,14 +12,12 @@ in
   };
 
   config = {
-    services.caddy.virtualHosts."http://${cfg.host}:8000" = {
+    services.caddy.virtualHosts."${cfg.host}" = {
       extraConfig = ''
         root * /srv/http/public_html
         file_server browse
       '';
     };
-
-    slaanesh.caddy.reverseProxies."${cfg.host}" = "127.0.0.1:8000";
 
     systemd.tmpfiles.rules = [
       "d /srv/http 0755 root root -"

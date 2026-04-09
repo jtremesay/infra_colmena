@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 {
@@ -16,29 +15,27 @@
   config =
     let
       cfg = config.slaanesh.caddy;
-      caddyfile = pkgs.writeText "Caddyfile" ''
-        {
-          email jonathan.tremesaygues@slaanesh.org
-        }
-
-        :80 {
-          redir / https://{host} permanent
-        }
-
-        ${lib.concatStringsSep "\n\n" (
-          lib.mapAttrsToList (host: backend: ''
-            ${host} {
-              encode zstd gzip
-              reverse_proxy ${backend}
-            }
-          '') cfg.reverseProxies
-        )}
-      '';
+      reverseProxyHosts = lib.mapAttrs (host: backend: {
+        extraConfig = ''
+          encode zstd gzip
+          reverse_proxy ${backend}
+        '';
+      }) cfg.reverseProxies;
+      allHosts = reverseProxyHosts // {
+        ":80" = {
+          extraConfig = ''
+            redir / https://{host} permanent
+          '';
+        };
+      };
     in
     {
       services.caddy = {
         enable = true;
-        configFile = caddyfile;
+        globalConfig = ''
+          email jonathan.tremesaygues@slaanesh.org
+        '';
+        virtualHosts = allHosts;
       };
 
       networking.firewall.allowedTCPPorts = [
