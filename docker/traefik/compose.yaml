@@ -1,0 +1,41 @@
+# First create the network with:
+# docker network create --driver=overlay --attachable traefik_public
+# Then deploy the stack with:
+# docker stack deploy -c compose.yaml traefik
+services:
+  traefik:
+    image: "traefik:3"
+    command:
+      # Logging
+      - "--log.level=INFO"
+      # Entry point http
+      - "--entrypoints.web.address=:8000"
+      - "--entrypoints.web.asDefault=true"
+      # Enable dashboard
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      # Enable Swarm provider
+      - "--providers.swarm=true"
+      - "--providers.swarm.exposedByDefault=false"
+      - "--providers.swarm.network=traefik_public"
+    ports:
+      - "8000:8000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - "traefik_public"
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.traefik_dashboard.rule=Host(`traefik.jtremesay.org`)"
+        - "traefik.http.routers.traefik_dashboard.service=api@internal"
+        - "traefik.http.services.traefik_dashboard.loadbalancer.server.port=8000"
+      placement:
+        constraints:
+          - "node.role == manager"
+
+networks:
+  traefik_public:
+    attachable: true
+    external: true
