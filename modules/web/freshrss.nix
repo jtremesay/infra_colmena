@@ -92,24 +92,7 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."freshrss" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "freshrss";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."freshrss" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.freshrss.localAddress}:80"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.freshrss.localAddress}:80";
 
     services.borgmatic.settings.source_directories = [
       "/var/lib/nixos-containers/freshrss/var/lib/freshrss"

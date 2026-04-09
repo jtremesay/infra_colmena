@@ -90,24 +90,7 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."nextcloud" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "nextcloud";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."nextcloud" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.nextcloud.localAddress}:80"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.nextcloud.localAddress}:80";
 
     services.borgmatic.settings.source_directories = [
       "/var/lib/nixos-containers/nextcloud/var/lib/nextcloud"

@@ -26,8 +26,6 @@
     ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
-    ../../modules/web/traefik.nix
-    ../../modules/web/traefik_dashboard.nix
     ../../modules/web/vaultwarden.nix
   ];
 

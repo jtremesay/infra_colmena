@@ -55,23 +55,6 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."headscale" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "headscale";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."headscale" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.headscale.localAddress}:8080"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.headscale.localAddress}:8080";
   };
 }

@@ -28,23 +28,6 @@ in
       '';
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."mirrors" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "mirrors";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."mirrors" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://127.0.0.1:8000"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "127.0.0.1:8000";
   };
 }

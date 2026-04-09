@@ -70,24 +70,7 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."mattermost" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "mattermost";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."mattermost" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.mattermost.localAddress}:8065"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.mattermost.localAddress}:8065";
 
     services.borgmatic.settings.source_directories = [
       "/var/lib/nixos-containers/mattermost/etc/mattermost"

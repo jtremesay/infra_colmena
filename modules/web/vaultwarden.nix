@@ -48,24 +48,7 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."vaultwarden" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "vaultwarden";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."vaultwarden" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.vaultwarden.localAddress}:8000"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.vaultwarden.localAddress}:8000";
 
     services.borgmatic.settings.source_directories = [
       "/var/lib/nixos-containers/vaultwarden/var/lib/vaultwarden"

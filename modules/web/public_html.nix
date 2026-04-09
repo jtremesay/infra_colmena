@@ -19,24 +19,7 @@ in
       '';
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."users" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "users";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."users" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://127.0.0.1:8000"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "127.0.0.1:8000";
 
     systemd.tmpfiles.rules = [
       "d /srv/http 0755 root root -"

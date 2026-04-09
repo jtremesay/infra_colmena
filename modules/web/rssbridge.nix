@@ -54,23 +54,6 @@ in
         };
     };
 
-    services.traefik.dynamicConfigOptions = {
-      http = {
-        routers."rssbridge" = {
-          rule = "Host(`${cfg.host}`)";
-          service = "rssbridge";
-          entryPoints = [ "https" ];
-          tls.certResolver = "le";
-        };
-
-        services."rssbridge" = {
-          loadBalancer = {
-            servers = [
-              { url = "http://${config.containers.rssbridge.localAddress}:80"; }
-            ];
-          };
-        };
-      };
-    };
+    slaanesh.caddy.reverseProxies."${cfg.host}" = "${config.containers.rssbridge.localAddress}:80";
   };
 }
