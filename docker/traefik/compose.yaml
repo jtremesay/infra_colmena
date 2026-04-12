@@ -20,7 +20,10 @@ services:
       - "--providers.swarm.exposedByDefault=false"
       - "--providers.swarm.network=traefik_public"
     ports:
-      - "8000:8000"
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
