@@ -15,17 +15,15 @@
     ./hardware-configuration.nix
     ../../modules/base.nix
     ../../modules/dns/resolved.nix
+    ../../modules/laptop/lid.nix
     ../../modules/network/firewall.nix
+    ../../modules/network/networkmanager.nix
     ../../modules/network/tailscale.nix
     #../../modules/services/borgmatic.nix
     #../../modules/desktop/sway.nix
   ];
 
   networking.hostName = "music";
-
-  networking = {
-    networkmanager.enable = true;
-  };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

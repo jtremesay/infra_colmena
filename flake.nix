@@ -63,7 +63,7 @@
 
         harvest = {
           deployment = {
-            targetHost = "192.168.1.165";
+            #targetHost = "192.168.1.165";
           };
           imports = commonModules ++ [ ./machines/harvest/configuration.nix ];
         };
