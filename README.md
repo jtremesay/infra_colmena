@@ -46,6 +46,12 @@ $ sops updatekeys secrets/default.yaml
 $ sops edit secrets/default.yaml
 ```
 
+## Tailscale
+
+```shell
+tailscale up --login-server https://headscale.jtremesay.org
+```
+
 ## Reference
 
 - [NixOS Options](https://nixos.org/manual/nixos/stable/options)

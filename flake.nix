@@ -61,11 +61,11 @@
           };
         };
 
-        music = {
+        harvest = {
           deployment = {
-            #targetHost = "192.168.1.79";
+            targetHost = "192.168.1.165";
           };
-          imports = commonModules ++ [ ./machines/music/configuration.nix ];
+          imports = commonModules ++ [ ./machines/harvest/configuration.nix ];
         };
 
         hiraeth = {
@@ -73,6 +73,13 @@
             #targetHost = "hiraeth.jtremesay.org";
           };
           imports = commonModules ++ [ ./machines/hiraeth/configuration.nix ];
+        };
+
+        music = {
+          deployment = {
+            #targetHost = "192.168.1.79";
+          };
+          imports = commonModules ++ [ ./machines/music/configuration.nix ];
         };
       };
     };
