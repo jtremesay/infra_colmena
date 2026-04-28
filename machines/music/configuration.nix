@@ -25,6 +25,19 @@
 
   networking.hostName = "music";
 
+  services.caddy = {
+    enable = true;
+    configFile = pkgs.writeText "Caddyfile" ''
+      http://music.jtremesay.org
+
+      respond "Hello from music!"
+    '';
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    80
+  ];
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #

@@ -25,6 +25,19 @@
 
   networking.hostName = "harvest";
 
+  services.caddy = {
+    enable = true;
+    configFile = pkgs.writeText "Caddyfile" ''
+      http://harvest.jtremesay.org
+
+      respond "Hello from harvest!"
+    '';
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    80
+  ];
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #

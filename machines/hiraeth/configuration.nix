@@ -44,6 +44,9 @@
       "jtremesay.org" = "http://localhost:8000";
       "camille.jtremesay.org" = "http://localhost:8000";
       "traefik.jtremesay.org" = "http://localhost:8000";
+
+      "harvest.jtremesay.org" = "http://harvest.vpn.jtremesay.org";
+      "music.jtremesay.org" = "http://music.vpn.jtremesay.org";
     };
   };
 
