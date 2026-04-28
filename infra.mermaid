@@ -59,7 +59,7 @@ graph TB
     Caddy -->|"mattermost.jtremesay.org"| Mattermost
     Caddy -->|"headscale.jtremesay.org"| Headscale
     Caddy -->|"users.jtremesay.org"| PublicHTML
-    Caddy -.->|"mirrors.jtremesay.org"| Mirrors
+    Caddy -->|"mirrors.jtremesay.org"| Mirrors
     Caddy -->|"*.jtremesay.org (swarm)"| Traefik
 
     FreshRSS_PG -.->|"backup"| Borgmatic 
