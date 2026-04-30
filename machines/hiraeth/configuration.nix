@@ -12,6 +12,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/base.nix
+    ../../modules/boot.nix
     ../../modules/dns/resolved.nix
     ../../modules/network/firewall.nix
     ../../modules/network/headscale.nix
@@ -27,6 +28,7 @@
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
     ../../modules/web/vaultwarden.nix
+    ../../users
   ];
 
   networking.hostName = "hiraeth";

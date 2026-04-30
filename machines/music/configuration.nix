@@ -14,6 +14,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/base.nix
+    ../../modules/boot.nix
     ../../modules/dns/resolved.nix
     ../../modules/laptop/lid.nix
     ../../modules/network/firewall.nix
@@ -21,6 +22,7 @@
     ../../modules/network/tailscale.nix
     #../../modules/services/borgmatic.nix
     #../../modules/desktop/sway.nix
+    ../../users
   ];
 
   networking.hostName = "music";
