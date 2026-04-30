@@ -52,8 +52,8 @@
       "traefik.jtremesay.org" = "http://localhost:8000";
 
       # Homelabs
-      "harvest.jtremesay.org" = "http://harvest.vpn.jtremesay.org";
-      "music.jtremesay.org" = "http://music.vpn.jtremesay.org";
+      #"harvest.jtremesay.org" = "http://harvest.vpn.jtremesay.org";
+      #"music.jtremesay.org" = "http://music.vpn.jtremesay.org";
     };
   };
 
