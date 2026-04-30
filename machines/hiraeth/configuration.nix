@@ -16,6 +16,7 @@
     ../../modules/dns/resolved.nix
     ../../modules/network/firewall.nix
     ../../modules/network/headscale.nix
+    ../../modules/network/nat.nix
     ../../modules/network/tailscale.nix
     ../../modules/mirrors
     ../../modules/services/borgmatic.nix
@@ -31,7 +32,10 @@
     ../../users
   ];
 
-  networking.hostName = "hiraeth";
+  networking = {
+    hostName = "hiraeth";
+    nat.externalInterface = "eno1";
+  };
 
   slaanesh = {
     freshrss.localAddress = "192.168.100.10";
@@ -50,30 +54,6 @@
       # Homelabs
       "harvest.jtremesay.org" = "http://harvest.vpn.jtremesay.org";
       "music.jtremesay.org" = "http://music.vpn.jtremesay.org";
-    };
-  };
-
-  networking = {
-    nat = {
-      enable = true;
-      # Use "ve-*" when using nftables instead of iptables
-      internalInterfaces = [ "ve-+" ];
-      externalInterface = "eno1";
-      # Lazy IPv6 connectivity for the container
-      enableIPv6 = true;
-    };
-    nftables = {
-      tables = {
-        nat = {
-          content = ''
-            chain postrouting {
-                type nat hook postrouting priority srcnat; policy accept;
-                oifname "eno1" masquerade
-            }
-          '';
-          family = "ip";
-        };
-      };
     };
   };
 
