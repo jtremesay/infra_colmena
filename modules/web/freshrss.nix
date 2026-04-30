@@ -38,7 +38,7 @@ in
       config =
         { pkgs, lib, ... }:
         {
-          imports = [ ../dns/dns.nix ];
+          imports = [ ../dns/resolved.nix ];
 
           systemd = {
             timers.freshrss-actualize = {

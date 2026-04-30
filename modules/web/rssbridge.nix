@@ -27,7 +27,7 @@ in
       config =
         { pkgs, lib, ... }:
         {
-          imports = [ ../dns/dns.nix ];
+          imports = [ ../dns/resolved.nix ];
 
           services.rss-bridge = {
             enable = true;

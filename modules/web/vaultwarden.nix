@@ -26,7 +26,7 @@ in
       config =
         { pkgs, lib, ... }:
         {
-          imports = [ ../dns/dns.nix ];
+          imports = [ ../dns/resolved.nix ];
 
           services.vaultwarden = {
             enable = true;
