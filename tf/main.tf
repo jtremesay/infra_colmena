@@ -84,3 +84,7 @@ resource "aws_instance" "weave" {
   vpc_security_group_ids = [aws_security_group.weave.id]
   associate_public_ip_address = true
 }
+
+output "weave_dns" {
+  value = aws_instance.weave.public_dns
+}
