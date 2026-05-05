@@ -20,9 +20,9 @@
       ];
     };
 
-    programs.git = {
-      userName = "Jonathan Tremesaygues";
-      userEmail = "jonathan.tremesaygues@slaanesh.org";
+    programs.git.settings.user = {
+      name = "Jonathan Tremesaygues";
+      email = "jonathan.tremesaygues@slaanesh.org";
     };
   };
 }
