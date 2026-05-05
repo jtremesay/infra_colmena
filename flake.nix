@@ -68,19 +68,19 @@
           imports = commonModules ++ [ ./machines/hiraeth/configuration.nix ];
         };
 
-        # harvest = {
-        #   deployment = {
-        #     #targetHost = "192.168.1.165";
-        #   };
-        #   imports = commonModules ++ [ ./machines/harvest/configuration.nix ];
-        # };
+        harvest = {
+          deployment = {
+            #targetHost = "192.168.1.165";
+          };
+          imports = commonModules ++ [ ./machines/harvest/configuration.nix ];
+        };
 
-        # music = {
-        #   deployment = {
-        #     #targetHost = "192.168.1.79";
-        #   };
-        #   imports = commonModules ++ [ ./machines/music/configuration.nix ];
-        # };
+        music = {
+          deployment = {
+            #targetHost = "192.168.1.79";
+          };
+          imports = commonModules ++ [ ./machines/music/configuration.nix ];
+        };
 
         # weave = {
         #   deployment = {
