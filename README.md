@@ -26,7 +26,13 @@ Deploy the config
 $ colmena apply
 ```
 
-## Generate server public key
+## Sops
+
+### Where the fuck did I backup my private key?
+
+In your password manager, "Sops (age)" entry.
+
+### Generate server public key
 
 Get the public key:
 
@@ -40,7 +46,7 @@ Add it to `.sops.yaml` then recrypt `secrets/default.yaml`:
 $ sops updatekeys secrets/default.yaml
 ```
 
-## Update secrets file:
+### Update secrets file:
 
 ```shell
 $ sops edit secrets/default.yaml
@@ -51,6 +57,12 @@ $ sops edit secrets/default.yaml
 ```shell
 tailscale up --login-server https://headscale.jtremesay.org
 ```
+
+## Borgmatic
+
+### Where the fuck did I backup the password?
+
+In your password manager, "Borg backup (storage box)" entry.
 
 ## Reference
 

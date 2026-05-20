@@ -18,7 +18,7 @@ in
 
   config = {
     sops.secrets = {
-      "freshrss/jtremesay/password" = { };
+      "freshrss" = { };
     };
 
     containers.freshrss = {
@@ -28,9 +28,9 @@ in
       localAddress = cfg.localAddress;
 
       bindMounts = {
-        freshrss_jtremesay_password = {
-          hostPath = config.sops.secrets."freshrss/jtremesay/password".path;
-          mountPoint = "/run/secrets/freshrss_jtremesay_password";
+        freshrss = {
+          hostPath = config.sops.secrets."freshrss".path;
+          mountPoint = "/run/secrets/freshrss";
           isReadOnly = true;
         };
       };
@@ -65,7 +65,7 @@ in
             enable = true;
             baseUrl = "https://${cfg.host}";
             defaultUser = "jtremesay";
-            passwordFile = "/run/secrets/freshrss_jtremesay_password";
+            passwordFile = "/run/secrets/freshrss";
             database.type = "pgsql";
           };
 

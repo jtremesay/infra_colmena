@@ -13,32 +13,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./network.nix
     ../../modules/base.nix
     ../../modules/boot.nix
     ../../modules/dns/resolved.nix
     ../../modules/laptop/lid.nix
     ../../modules/network/firewall.nix
-    ../../modules/network/networkmanager.nix
     ../../modules/network/tailscale.nix
-    #../../modules/services/borgmatic.nix
-    #../../modules/desktop/sway.nix
     ../../users
   ];
 
   networking.hostName = "music";
-
-  services.caddy = {
-    enable = true;
-    configFile = pkgs.writeText "Caddyfile" ''
-      http://music.jtremesay.org
-
-      respond "Hello from music!"
-    '';
-  };
-
-  networking.firewall.allowedTCPPorts = [
-    80
-  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

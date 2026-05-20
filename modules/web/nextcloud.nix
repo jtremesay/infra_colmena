@@ -18,7 +18,7 @@ in
 
   config = {
     sops.secrets = {
-      "nextcloud/jtremesay/password" = { };
+      "nextcloud" = { };
     };
 
     containers.nextcloud = {
@@ -28,9 +28,9 @@ in
       localAddress = cfg.localAddress;
 
       bindMounts = {
-        nextcloud_jtremesay_password = {
-          hostPath = config.sops.secrets."nextcloud/jtremesay/password".path;
-          mountPoint = "/run/secrets/nextcloud_jtremesay_password";
+        nextcloud = {
+          hostPath = config.sops.secrets."nextcloud".path;
+          mountPoint = "/run/secrets/nextcloud";
           isReadOnly = true;
         };
       };
@@ -51,7 +51,7 @@ in
               autoUpdateApps.enable = true;
               config = {
                 adminuser = "jtremesay";
-                adminpassFile = "/run/secrets/nextcloud_jtremesay_password";
+                adminpassFile = "/run/secrets/nextcloud";
 
                 dbtype = "pgsql";
               };
