@@ -81,13 +81,6 @@
           };
           imports = commonModules ++ [ ./machines/music/configuration.nix ];
         };
-
-        # weave = {
-        #   deployment = {
-        #     targetHost = "ec2-52-47-129-94.eu-west-3.compute.amazonaws.com";
-        #   };
-        #   imports = commonModules ++ [ ./machines/weave/configuration.nix ];
-        # };
       };
     };
 }
