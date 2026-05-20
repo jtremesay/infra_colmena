@@ -32,9 +32,7 @@
     {
       services.caddy = {
         enable = true;
-        globalConfig = ''
-          email jonathan.tremesaygues@slaanesh.org
-        '';
+        email = "jonathan.tremesaygues@slaanesh.org";
         virtualHosts = allHosts;
       };
 
