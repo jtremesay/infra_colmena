@@ -11,6 +11,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./network.nix
     ../../modules/base.nix
     ../../modules/boot.nix
     ../../modules/dns/resolved.nix

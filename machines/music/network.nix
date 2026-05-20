@@ -33,10 +33,12 @@
 
     defaultGateway = {
       address = "192.168.1.1";
+      interface = "wlan0";
     };
 
     defaultGateway6 = {
       address = "2a02:8434:66ee:7001:b69d:fdff:fe0a:c6b1";
+      interface = "wlan0";
     };
   };
 }
