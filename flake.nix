@@ -6,10 +6,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +16,6 @@
       self,
       colmena,
       home-manager,
-      lanzaboote,
       nixpkgs,
       sops-nix,
     }:
@@ -32,7 +27,6 @@
 
       commonModules = [
         home-manager.nixosModules.home-manager
-        lanzaboote.nixosModules.lanzaboote
         sops-nix.nixosModules.sops
       ];
     in
