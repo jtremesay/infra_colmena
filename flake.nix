@@ -2,10 +2,10 @@
   inputs = {
     colmena.url = "github:zhaofengli/colmena";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +51,6 @@
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
-            overlays = [ ];
           };
         };
 
@@ -62,12 +61,14 @@
           imports = commonModules ++ [ ./machines/hiraeth/configuration.nix ];
         };
 
-        harvest = {
-          deployment = {
-            #targetHost = "192.168.1.165";
-          };
-          imports = commonModules ++ [ ./machines/harvest/configuration.nix ];
-        };
+        # harvest = {
+        #   deployment = {
+        #     #targetHost = "192.168.1.165";
+        #   };
+        #   imports = commonModules ++ [
+        #     ./machines/harvest/configuration.nix
+        #   ];
+        # };
 
         music = {
           deployment = {

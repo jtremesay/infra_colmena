@@ -57,7 +57,7 @@ in
               };
               database.createLocally = true;
               extraApps = {
-                inherit (pkgs.nextcloud31Packages.apps)
+                inherit (pkgs.nextcloud33Packages.apps)
                   calendar
                   contacts
                   mail
