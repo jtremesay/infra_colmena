@@ -48,7 +48,7 @@ in
 
             postgresql = {
               enable = true;
-              package = pkgs.postgresql_17;
+              package = pkgs.postgresql_18;
               ensureDatabases = [ config.services.mattermost.database.name ];
               ensureUsers = [
                 {
