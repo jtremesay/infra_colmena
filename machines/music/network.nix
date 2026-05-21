@@ -1,7 +1,11 @@
 { config, ... }:
 {
   sops.secrets = {
-    "wifi" = { };
+    "wifi" = {
+      owner = "wpa_supplicant";
+      group = "wpa_supplicant";
+      mode = "0400";
+    };
   };
 
   networking = {
