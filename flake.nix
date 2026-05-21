@@ -38,7 +38,7 @@
           fish
           nil
           nixd
-          nixfmt-rfc-style
+          nixfmt
           sops
           ssh-to-age
         ];
