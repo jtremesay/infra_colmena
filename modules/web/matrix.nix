@@ -21,11 +21,7 @@ in
   };
 
   config = {
-    sops.secrets."matrix/registration_shared_secret" = {
-      # World-readable because the matrix-synapse user/uid only exists inside
-      # the container, so we cannot chown the file to it from the host.
-      mode = "0444";
-    };
+    sops.secrets."matrix/registration_shared_secret" = { };
 
     containers.matrix = {
       autoStart = true;
@@ -33,16 +29,24 @@ in
       hostAddress = "192.168.100.1";
       localAddress = cfg.localAddress;
 
-      bindMounts."/run/secrets/matrix_registration_shared_secret" = {
-        hostPath = config.sops.secrets."matrix/registration_shared_secret".path;
-        isReadOnly = true;
-      };
+      # Hand the secret to the container as a systemd credential. Inside the
+      # container we re-export it to the matrix-synapse service, which then
+      # exposes it at /run/credentials/matrix-synapse.service/registration_shared_secret.
+      extraFlags = [
+        "--load-credential=registration_shared_secret:${
+          config.sops.secrets."matrix/registration_shared_secret".path
+        }"
+      ];
 
       config =
         { pkgs, lib, ... }:
         {
           imports = [
             ../dns/resolved.nix
+          ];
+
+          systemd.services.matrix-synapse.serviceConfig.LoadCredential = [
+            "registration_shared_secret"
           ];
 
           services = {
@@ -76,7 +80,7 @@ in
                     x_forwarded = true;
                   }
                 ];
-                registration_shared_secret_path = "/run/secrets/matrix_registration_shared_secret";
+                registration_shared_secret_path = "/run/credentials/matrix-synapse.service/registration_shared_secret";
                 server_name = cfg.host;
               };
             };
