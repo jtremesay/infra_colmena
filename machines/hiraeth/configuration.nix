@@ -26,6 +26,7 @@
     ../../modules/web/caddy.nix
     ../../modules/web/freshrss.nix
     ../../modules/web/mattermost.nix
+    ../../modules/web/matrix.nix
     ../../modules/web/nextcloud.nix
     ../../modules/web/public_html.nix
     ../../modules/web/rssbridge.nix
@@ -45,6 +46,7 @@
     nextcloud.localAddress = "192.168.100.13";
     mattermost.localAddress = "192.168.100.14";
     headscale.localAddress = "192.168.100.15";
+    matrix.localAddress = "192.168.100.16";
 
     caddy.reverseProxies = {
       # Docker swarm services
