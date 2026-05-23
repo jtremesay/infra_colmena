@@ -29,6 +29,12 @@ graph TB
             Mattermost_PG[("PostgreSQL")]
             Mattermost --> Mattermost_PG
         end
+        
+        subgraph mod_web_matrix["container"]
+            Matrix["Matrix"]
+            Matrix_PG[("PostgreSQL")]
+            Matrix --> Matrix_PG
+        end
 
         subgraph mod_net_headscale["container"]
             Headscale["Headscale"]
@@ -57,15 +63,17 @@ graph TB
     Caddy -->|"vault.jtremesay.org"| Vaultwarden
     Caddy -->|"cloud.jtremesay.org"| Nextcloud
     Caddy -->|"mattermost.jtremesay.org"| Mattermost
+    Caddy -->|"matrix.jtremesay.org"| Matrix
     Caddy -->|"headscale.jtremesay.org"| Headscale
     Caddy -->|"users.jtremesay.org"| PublicHTML
     Caddy -->|"mirrors.jtremesay.org"| Mirrors
     Caddy -->|"*.jtremesay.org (swarm)"| Traefik
 
-    FreshRSS_PG -.->|"backup"| Borgmatic 
-    Nextcloud_PG -.->|"backup"| Borgmatic 
-    Mattermost_PG -.->|"backup"| Borgmatic 
-    Vaultwarden -.->|"backup"| Borgmatic 
+    mod_web_freshrss -.->|"backup"| Borgmatic 
+    mod_web_nextcloud -.->|"backup"| Borgmatic 
+    mod_web_mattermost -.->|"backup"| Borgmatic 
+    mod_web_matrix -.->|"backup"| Borgmatic
+    mod_web_vaultwarden -.->|"backup"| Borgmatic 
     mod_swarm -.->|"backup"| Borgmatic
 
     Borgmatic -.->|"backup"| Sway
