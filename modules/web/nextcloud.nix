@@ -40,10 +40,6 @@ in
         {
           imports = [ ../dns/resolved.nix ];
 
-          programs.neovim = {
-            defaultEditor = true;
-            enable = true;
-          };
           services = {
             nextcloud = {
               enable = true;
@@ -76,6 +72,11 @@ in
                   "192.168.100.1"
                 ];
               };
+            };
+
+            postgresql = {
+              enable = true;
+              package = pkgs.postgresql_18;
             };
           };
 
