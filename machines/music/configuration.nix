@@ -20,35 +20,48 @@
     ../../modules/laptop/lid.nix
     ../../modules/network/tailscale.nix
     ../../users
+    ./caddy.nix
+    ./haproxy.nix
   ];
 
-  networking.hostName = "music";
-
-  services.caddy = {
-    enable = true;
-    email = "jonathan.tremesaygues@slaanesh.org";
-    virtualHosts = {
-      "slaanesh.org" = {
-        listenAddresses = [
-          "tcp6/[::]"
-        ];
-        extraConfig = ''
-          respond "Hello, world"
-        '';
-      };
+  networking = {
+    hostName = "music";
+    nat = {
+      enable = true;
+      enableIPv6 = true;
+      internalInterfaces = [
+        # NixOS containers
+        "ve-+"
+      ];
+      externalInterface = "wlan0";
     };
   };
 
-  networking.firewall = {
-    enable = true;
-    trustedInterfaces = [
-      "lo"
-    ];
-    allowedTCPPorts = [
-      80
-      443
-    ];
-  };
+  # services.caddy = {
+  #   enable = true;
+  #   email = "jonathan.tremesaygues@slaanesh.org";
+  #   virtualHosts = {
+  #     "slaanesh.org" = {
+  #       listenAddresses = [
+  #         "tcp6/[::]"
+  #       ];
+  #       extraConfig = ''
+  #         respond "Hello, world"
+  #       '';
+  #     };
+  #   };
+  # };
+
+  #networking.firewall = {
+  # enable = true;
+  # trustedInterfaces = [
+  #   "lo"
+  # ];
+  # allowedTCPPorts = [
+  #   80
+  #   443
+  # ];
+  #};
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -67,5 +80,5 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "26.05"; # Did you read the comment?
 }
