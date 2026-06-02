@@ -9,6 +9,17 @@
   };
 
   networking = {
+    hostName = "music";
+    nat = {
+      enable = true;
+      enableIPv6 = true;
+      internalInterfaces = [
+        # NixOS containers
+        "ve-+"
+      ];
+      externalInterface = "wlan0";
+    };
+
     wireless = {
       enable = true;
       secretsFile = config.sops.secrets."wifi".path;

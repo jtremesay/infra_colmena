@@ -20,48 +20,9 @@
     ../../modules/laptop/lid.nix
     ../../modules/network/tailscale.nix
     ../../users
-    ./caddy.nix
-    ./haproxy.nix
+    #./caddy.nix
+    #./haproxy.nix
   ];
-
-  networking = {
-    hostName = "music";
-    nat = {
-      enable = true;
-      enableIPv6 = true;
-      internalInterfaces = [
-        # NixOS containers
-        "ve-+"
-      ];
-      externalInterface = "wlan0";
-    };
-  };
-
-  # services.caddy = {
-  #   enable = true;
-  #   email = "jonathan.tremesaygues@slaanesh.org";
-  #   virtualHosts = {
-  #     "slaanesh.org" = {
-  #       listenAddresses = [
-  #         "tcp6/[::]"
-  #       ];
-  #       extraConfig = ''
-  #         respond "Hello, world"
-  #       '';
-  #     };
-  #   };
-  # };
-
-  #networking.firewall = {
-  # enable = true;
-  # trustedInterfaces = [
-  #   "lo"
-  # ];
-  # allowedTCPPorts = [
-  #   80
-  #   443
-  # ];
-  #};
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
