@@ -30,8 +30,22 @@
       };
     in
     {
+      sops.secrets = {
+        "actalis_eab" = {
+          owner = config.services.caddy.user;
+        };
+      };
+
       services.caddy = {
         enable = true;
+        environmentFile = config.sops.secrets."actalis_eab".path;
+        acmeCA = "https://acme-api.actalis.com/acme/directory";
+        globalConfig = ''
+          acme_eab {
+            key_id {$EAB_KEY_ID}
+            mac_key {$EAB_MAC_KEY}
+          }
+        '';
         email = "jonathan.tremesaygues@slaanesh.org";
         virtualHosts = allHosts;
       };

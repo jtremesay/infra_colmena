@@ -20,8 +20,6 @@
     ../../modules/laptop/lid.nix
     ../../modules/network/tailscale.nix
     ../../users
-    #./caddy.nix
-    #./haproxy.nix
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
